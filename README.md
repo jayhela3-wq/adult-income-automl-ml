@@ -2,23 +2,24 @@
 
 ## 📌 Overview
 
-This project predicts whether a person earns more than 50K per year using a Logistic Regression model.
+This project predicts whether a person earns more than $50K per year using Machine Learning.
 
-It includes:
+The project includes:
 
-* Data preprocessing
-* Model training and evaluation
+* Manual model (Logistic Regression)
+* AutoML using PyCaret (multiple models comparison)
+* Data preprocessing and cleaning
 * Feature correlation analysis
-* SHAP-based explainability
 * Prediction using JSON input file
 
 ---
 
-## 📁 Files
+## 📁 Project Structure
 
-* `model.py` → trains the model and performs EDA
-* `predict.py` → loads model and predicts using JSON input
-* `model.pkl` → saved trained model
+* `model.py` → manual model training (Logistic Regression)
+* `predict.py` → prediction using manual model
+* `model_automl.py` → AutoML using PyCaret
+* `predict_automl.py` → prediction using AutoML model
 * `income-dataset.csv` → dataset
 * `requirements.txt` → dependencies
 
@@ -36,25 +37,29 @@ pip install -r requirements.txt
 
 ## ▶️ Usage
 
-### Step 1: Train the model
+### 🔹 Manual Model
 
 ```bash
 python model.py
-```
-
-### Step 2: Run prediction
-
-```bash
 python predict.py
 ```
 
-Enter the JSON file path when prompted.
+---
+
+### 🔹 AutoML Model (Recommended)
+
+```bash
+python model_automl.py
+python predict_automl.py
+```
+
+⚠️ Run `model_automl.py` first to generate the trained model file before prediction.
 
 ---
 
 ## 📄 Input Format (JSON)
 
-Example:
+Example input file:
 
 ```json
 {
@@ -79,14 +84,98 @@ Example:
 
 ## 📊 Model Performance
 
-* Accuracy: ~84%
-* Evaluation metrics printed in `model.py`
+* Logistic Regression Accuracy: ~84%
+* AutoML selects best model (Random Forest, XGBoost, etc.)
+* Performance comparison done automatically using PyCaret
 
 ---
 
-## 🔍 Explainability
+## 🔍 Feature Analysis
 
-SHAP (SHapley Additive exPlanations) is used to explain the contribution of each feature to the prediction.
+* Correlation analysis performed using encoded dataset
+* Helps understand relationships between features and target variable
+
+### Key Insight:
+
+> Features with high correlation often have strong influence, but AutoML captures more complex patterns.
+
+---
+
+## ⚙️ Approach and Implementation
+
+### 📌 Approach
+
+The project follows a structured Machine Learning workflow:
+
+1. Data cleaning and preprocessing
+2. Feature handling (categorical + numerical)
+3. Model training and evaluation
+4. Model comparison using AutoML
+5. Prediction using saved model
+
+---
+
+### 🛠️ Implementation
+
+* Cleaned dataset (handled missing values, removed spaces)
+* Used OneHotEncoding and scaling (manual model)
+* Used Pipeline for structured workflow
+* Used PyCaret for:
+
+  * Automatic preprocessing
+  * Training multiple models
+  * Selecting best model
+* Saved model using Pickle
+* Built prediction system using JSON input
+
+---
+
+## 🤖 AutoML using PyCaret
+
+PyCaret is used to automate model selection:
+
+* Trains multiple models (Logistic Regression, Random Forest, XGBoost, etc.)
+* Compares performance automatically
+* Selects best model
+* Reduces manual effort and improves accuracy
+
+---
+
+## 📘 Feature Description
+
+### 🔢 Numerical Features
+
+| Feature        | Description           | Range   |
+| -------------- | --------------------- | ------- |
+| age            | Age of the individual | 17 – 90 |
+| fnlwgt         | Census weight         | > 0     |
+| education-num  | Years of education    | 1 – 16  |
+| capital-gain   | Capital gain          | ≥ 0     |
+| capital-loss   | Capital loss          | ≥ 0     |
+| hours-per-week | Working hours         | 1 – 99  |
+
+---
+
+### 🔤 Categorical Features
+
+| Feature        | Description     | Values                            |
+| -------------- | --------------- | --------------------------------- |
+| workclass      | Employment type | Private, Self-emp, Govt, etc.     |
+| education      | Education level | Bachelors, HS-grad, Masters, etc. |
+| marital-status | Marital status  | Married, Single, Divorced, etc.   |
+| occupation     | Job type        | Tech, Sales, Exec, etc.           |
+| relationship   | Family relation | Husband, Wife, etc.               |
+| race           | Race category   | White, Black, Asian, etc.         |
+| sex            | Gender          | Male, Female                      |
+| native-country | Country         | US, India, etc.                   |
+
+---
+
+### 🎯 Target Variable
+
+| Feature | Description  | Values      |
+| ------- | ------------ | ----------- |
+| income  | Income level | <=50K, >50K |
 
 ---
 
@@ -96,10 +185,10 @@ SHAP (SHapley Additive exPlanations) is used to explain the contribution of each
 * Pandas
 * NumPy
 * Scikit-learn
-* SHAP
+* PyCaret
 
 ---
 
 ## 📎 Author
 
-Your Name
+Joyprakash Hela
