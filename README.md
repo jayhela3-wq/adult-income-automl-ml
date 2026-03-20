@@ -1,67 +1,57 @@
-# Adult Income Prediction using Machine Learning
+Adult Income Prediction using Machine Learning
 
-## 📌 Overview
+📌 Overview
 
 This project predicts whether a person earns more than $50K per year using Machine Learning.
 
 The project includes:
 
-* Manual model (Logistic Regression)
-* AutoML using PyCaret (multiple models comparison)
-* Data preprocessing and cleaning
-* Feature correlation analysis
-* Prediction using JSON input file
+- Manual model (Logistic Regression)
+- AutoML using PyCaret (multiple models comparison)
+- Data preprocessing and cleaning
+- Feature correlation analysis
+- SHAP-based explainability
+- Prediction using JSON input file
 
 ---
 
-## 📁 Project Structure
+📁 Project Structure
 
-* `model.py` → manual model training (Logistic Regression)
-* `predict.py` → prediction using manual model
-* `model_automl.py` → AutoML using PyCaret
-* `predict_automl.py` → prediction using AutoML model
-* `income-dataset.csv` → dataset
-* `requirements.txt` → dependencies
+- "model.py" → manual model training (Logistic Regression + SHAP)
+- "predict.py" → prediction with SHAP explanation
+- "model_automl.py" → AutoML using PyCaret
+- "predict_automl.py" → prediction using AutoML model
+- "income-dataset.csv" → dataset
+- "requirements.txt" → dependencies
 
 ---
 
-## ⚙️ Installation
+⚙️ Installation
 
-Install required libraries:
-
-```bash
 pip install -r requirements.txt
-```
 
 ---
 
-## ▶️ Usage
+▶️ Usage
 
-### 🔹 Manual Model
+🔹 Manual Model (with SHAP)
 
-```bash
 python model.py
 python predict.py
-```
 
 ---
 
-### 🔹 AutoML Model (Recommended)
+🔹 AutoML Model 
 
-```bash
 python model_automl.py
 python predict_automl.py
-```
 
-⚠️ Run `model_automl.py` first to generate the trained model file before prediction.
+⚠️ Run "model_automl.py" first to generate the trained model.
 
 ---
 
-## 📄 Input Format (JSON)
+📄 Input Format (JSON)
 
-Example input file:
-
-```json
 {
   "age": 37,
   "workclass": "Private",
@@ -78,117 +68,122 @@ Example input file:
   "hours-per-week": 40,
   "native-country": "United-States"
 }
-```
 
 ---
 
-## 📊 Model Performance
+📊 Model Performance
 
-* Logistic Regression Accuracy: ~84%
-* AutoML selects best model (Random Forest, XGBoost, etc.)
-* Performance comparison done automatically using PyCaret
-
----
-
-## 🔍 Feature Analysis
-
-* Correlation analysis performed using encoded dataset
-* Helps understand relationships between features and target variable
-
-### Key Insight:
-
-> Features with high correlation often have strong influence, but AutoML captures more complex patterns.
+- Logistic Regression Accuracy: ~84%
+- AutoML selects best model automatically (Random Forest, XGBoost, etc.)
 
 ---
 
-## ⚙️ Approach and Implementation
+🔍 Feature Analysis
 
-### 📌 Approach
-
-The project follows a structured Machine Learning workflow:
-
-1. Data cleaning and preprocessing
-2. Feature handling (categorical + numerical)
-3. Model training and evaluation
-4. Model comparison using AutoML
-5. Prediction using saved model
+- Correlation analysis performed using encoded dataset
+- Helps identify important features
 
 ---
 
-### 🛠️ Implementation
+🧠 Explainability using SHAP
 
-* Cleaned dataset (handled missing values, removed spaces)
-* Used OneHotEncoding and scaling (manual model)
-* Used Pipeline for structured workflow
-* Used PyCaret for:
+SHAP (SHapley Additive exPlanations) is used to explain model predictions.
 
-  * Automatic preprocessing
-  * Training multiple models
-  * Selecting best model
-* Saved model using Pickle
-* Built prediction system using JSON input
+- Shows contribution of each feature to the prediction
+- Helps understand model behavior
+- Provides both magnitude and direction of impact
 
----
+Key Insight:
 
-## 🤖 AutoML using PyCaret
+«Features like education, marital-status, and age have strong influence on income prediction.»
 
-PyCaret is used to automate model selection:
+⚠️ Note:
 
-* Trains multiple models (Logistic Regression, Random Forest, XGBoost, etc.)
-* Compares performance automatically
-* Selects best model
-* Reduces manual effort and improves accuracy
+- SHAP is applied to the manual Logistic Regression model
+- For AutoML models, SHAP is not directly used due to model compatibility differences
 
 ---
 
-## 📘 Feature Description
+⚙️ Approach and Implementation
 
-### 🔢 Numerical Features
+📌 Approach
 
-| Feature        | Description           | Range   |
-| -------------- | --------------------- | ------- |
-| age            | Age of the individual | 17 – 90 |
-| fnlwgt         | Census weight         | > 0     |
-| education-num  | Years of education    | 1 – 16  |
-| capital-gain   | Capital gain          | ≥ 0     |
-| capital-loss   | Capital loss          | ≥ 0     |
-| hours-per-week | Working hours         | 1 – 99  |
-
----
-
-### 🔤 Categorical Features
-
-| Feature        | Description     | Values                            |
-| -------------- | --------------- | --------------------------------- |
-| workclass      | Employment type | Private, Self-emp, Govt, etc.     |
-| education      | Education level | Bachelors, HS-grad, Masters, etc. |
-| marital-status | Marital status  | Married, Single, Divorced, etc.   |
-| occupation     | Job type        | Tech, Sales, Exec, etc.           |
-| relationship   | Family relation | Husband, Wife, etc.               |
-| race           | Race category   | White, Black, Asian, etc.         |
-| sex            | Gender          | Male, Female                      |
-| native-country | Country         | US, India, etc.                   |
+1. Data cleaning (handling missing values, removing spaces)
+2. Feature preprocessing (encoding + scaling)
+3. Model training (Logistic Regression)
+4. Model comparison using AutoML (PyCaret)
+5. Model evaluation
+6. Explainability using SHAP
+7. Prediction using JSON input
 
 ---
 
-### 🎯 Target Variable
+🛠️ Implementation
 
-| Feature | Description  | Values      |
-| ------- | ------------ | ----------- |
-| income  | Income level | <=50K, >50K |
-
----
-
-## 🧠 Technologies Used
-
-* Python
-* Pandas
-* NumPy
-* Scikit-learn
-* PyCaret
+- Used Pipeline for preprocessing + model
+- Used OneHotEncoding for categorical features
+- Used StandardScaler for numerical features
+- Used PyCaret for AutoML
+- Used Pickle for saving models
+- Built prediction system using JSON input
 
 ---
 
-## 📎 Author
+🤖 AutoML using PyCaret
 
-Joyprakash Hela
+- Trains multiple models automatically
+- Compares performance
+- Selects best model
+- Improves accuracy and reduces manual effort
+
+---
+
+📘 Feature Description
+
+🔢 Numerical Features
+
+Feature| Description| Range
+age| Age of the individual| 17 – 90
+fnlwgt| Census weight| > 0
+education-num| Years of education| 1 – 16
+capital-gain| Capital gain| ≥ 0
+capital-loss| Capital loss| ≥ 0
+hours-per-week| Working hours| 1 – 99
+
+---
+
+🔤 Categorical Features
+
+Feature| Description| Values
+workclass| Employment type| Private, Self-emp, Govt, etc.
+education| Education level| Bachelors, HS-grad, Masters, etc.
+marital-status| Marital status| Married, Single, Divorced, etc.
+occupation| Job type| Tech, Sales, Exec, etc.
+relationship| Family relation| Husband, Wife, etc.
+race| Race category| White, Black, Asian, etc.
+sex| Gender| Male, Female
+native-country| Country| US, India, etc.
+
+---
+
+🎯 Target Variable
+
+Feature| Description| Values
+income| Income level| <=50K, >50K
+
+---
+
+🧠 Technologies Used
+
+- Python
+- Pandas
+- NumPy
+- Scikit-learn
+- PyCaret
+- SHAP
+
+---
+
+📎 Author
+
+Joyprakash Hela 
