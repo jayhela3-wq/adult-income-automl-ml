@@ -45,7 +45,7 @@ python predict.py
 
 ---
 
-### 🔹 AutoML Model (Recommended)
+### 🔹 AutoML Model 
 
 ```bash
 python model_automl.py
